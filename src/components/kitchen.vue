@@ -24,6 +24,17 @@
       </div>
       <button class="weiter" @click="incrementState">Weiter!</button>
     </div>
+		<div class="overlay" v-if="this.globalGameState.$state.kitchenState == 3">
+      <h1>Es gibt noch einen Code?</h1>
+      <h3>Gib das passende Muster ein.</h3>
+			<div class="parent">
+				<div v-for="(key, index) in pattern" :class="'div' + (index + 1)" @click="patternInput(index)">
+					<p v-if="key">&#10008;</p>
+				</div>
+			</div>
+			<h4 v-if="patternMatcher">Da stimmt noch was nicht!</h4>
+      <button class="weiter" @click="finish">Mach auf jetzt!</button>
+    </div>
   </template>
   
   <script>
@@ -54,7 +65,7 @@
             }
         } else if (key == 12) {
             if (this.code[0] == 8 && this.code[1] == 5 && this.code[2] == 1 && this.code[3] == 4) {
-                this.globalGameState.incrementFlurState;
+                this.incrementState();
             }
         } else {
             for (let i = 0; i < 4; i++) {
@@ -64,13 +75,25 @@
                 }
             }
         }
-        console.log(this.code);
-      }
+      },
+			patternInput(key) {
+				this.pattern[key] = !this.pattern[key];
+			},
+			finish() {
+				if (this.pattern[0] && this.pattern[2] && this.pattern[6] && this.pattern[9] && this.pattern[12] && this.pattern[13] && !this.pattern[1] && !this.pattern[3] && !this.pattern[4] && !this.pattern[5] && !this.pattern[7] && !this.pattern[8] && !this.pattern[10] && !this.pattern[11] && !this.pattern[14]) {
+					router.push('/keller');
+				} else {
+					this.patternMatcher = true;
+					this.pattern = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
+				}
+			}
     },
     data() {
       return {
         code: [null, null, null, null],
-        keypadValues: [7,8,9,4,5,6,1,2,3,11,0,12]
+        keypadValues: [7,8,9,4,5,6,1,2,3,11,0,12],
+				pattern: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
+				patternMatcher: false
       }
     }
   }
@@ -83,7 +106,6 @@
     height: auto;
   }
   .geheim {
-    border: 1px solid white;
     width: 200px;
     height: 150px;
     position: absolute;
@@ -136,4 +158,50 @@
     margin: 5px;
     text-align: center;
   }
+
+	.parent {
+display: grid;
+grid-template-columns: repeat(5, 1fr);
+grid-template-rows: repeat(3, 1fr);
+grid-column-gap: 0px;
+grid-row-gap: 0px;
+margin: 20px 50px;
+}
+
+.parent > div {
+	height: 50px;
+	cursor: pointer;
+}
+p {
+	font-size: 35px;
+	text-align: center;
+	margin: 0;
+}
+
+.div1 { grid-area: 1 / 1 / 2 / 2; }
+.div2 { grid-area: 1 / 2 / 2 / 3; }
+.div3 { grid-area: 1 / 3 / 2 / 4; }
+.div4 { grid-area: 1 / 4 / 2 / 5; }
+.div5 { grid-area: 1 / 5 / 2 / 6; }
+.div6 { grid-area: 2 / 1 / 3 / 2; }
+.div7 { grid-area: 2 / 2 / 3 / 3; }
+.div8 { grid-area: 2 / 3 / 3 / 4; }
+.div9 { grid-area: 2 / 4 / 3 / 5; }
+.div10 { grid-area: 2 / 5 / 3 / 6; }
+.div11 { grid-area: 3 / 1 / 4 / 2; }
+.div12 { grid-area: 3 / 2 / 4 / 3; }
+.div13 { grid-area: 3 / 3 / 4 / 4; }
+.div14 { grid-area: 3 / 4 / 4 / 5; }
+.div15 { grid-area: 3 / 5 / 4 / 6; }
+
+.div1, .div2, .div3, .div4, .div6, .div7, .div8, .div9, .div11, .div12, .div13, .div14 {
+	border-right: 4px solid black;
+}
+.div1, .div2, .div3, .div4, .div5, .div6, .div7, .div8, .div9, .div10 {
+	border-bottom: 4px solid black;
+}
+
+h4 {
+	color: rgba(255,0,0,0.6);
+}
   </style>

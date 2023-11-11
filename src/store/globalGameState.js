@@ -13,11 +13,11 @@ export const useGlobalGameStateStore = defineStore('globalGameState', {
     }),
     getters: {
         isRaetselSolved() {
-            return true; /* (this.rotationSocke1 % 360 === 0) && 
+            return (this.rotationSocke1 % 360 === 0) && 
                 (this.rotationSocke2 % 360 === 0) && 
                 (this.rotationSocke3 % 360 === 0) && 
                 (this.rotationSocke4 % 360 === 0) && 
-                (this.rotationSocke5 % 360 === 0);*/
+                (this.rotationSocke5 % 360 === 0);
         }
     },
     actions: {
