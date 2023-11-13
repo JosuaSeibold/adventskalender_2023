@@ -10,6 +10,7 @@ export const useGlobalGameStateStore = defineStore('globalGameState', {
         rotationSocke5: 20,
         flurState: 0,
         kitchenState: 0,
+        hebelStatus: false
     }),
     getters: {
         isRaetselSolved() {

@@ -9,6 +9,7 @@
       <h3>Kannst du ihn öffnen? Vielleicht hat sich der Weihnachtsmann eingesperrt.</h3>
       <button class="weiter" @click="incrementState">Weiter!</button>
     </div>
+    <img @click="hebelClick" :style="styleHebel" class="hebel" src="@/assets/kitchen_asset.png" alt="nix gibts"/>
     <div class="overlay" v-if="this.globalGameState.$state.kitchenState == 2">
       <h1>Der Geheimgang ist verschlossen</h1>
       <h3>Gib den Code ein, um das Schloss zu öffnen:</h3>
@@ -35,6 +36,13 @@
 			<h4 v-if="patternMatcher">Da stimmt noch was nicht!</h4>
       <button class="weiter" @click="finish">Mach auf jetzt!</button>
     </div>
+    <div class="overlay" v-if="this.globalGameState.$state.kitchenState == 4 || this.globalGameState.$state.kitchenState == 6">
+      <h1>Der Hebel!</h1>
+      <h3>Die Tür ist noch mit einem Hebel gesichert.</h3>
+      <button class="weiter" @click="hebelHandler">
+        {{ globalGameState.$state.hebelStatus ? 'Ich will rein!' : 'Schließen' }}
+      </button>
+    </div>
   </template>
   
   <script>
@@ -47,6 +55,11 @@
         const globalGameState = useGlobalGameStateStore();
 
         return { globalGameState };
+    },
+    computed: {
+      styleHebel() {
+        return 'transform: rotate(' + this.rotateHebel + 'deg);';
+      },
     },
     methods: {
       inFlur() {
@@ -81,25 +94,56 @@
 			},
 			finish() {
 				if (this.pattern[0] && this.pattern[2] && this.pattern[6] && this.pattern[9] && this.pattern[12] && this.pattern[13] && !this.pattern[1] && !this.pattern[3] && !this.pattern[4] && !this.pattern[5] && !this.pattern[7] && !this.pattern[8] && !this.pattern[10] && !this.pattern[11] && !this.pattern[14]) {
-					router.push('/keller');
+					if (this.globalGameState.$state.hebelStatus) {
+            this.routeKeller();
+          } else {
+            this.globalGameState.incrementKitchenState();
+          }
 				} else {
 					this.patternMatcher = true;
 					this.pattern = [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false];
 				}
-			}
+			},
+      routeKeller() {
+        router.push('/keller');
+      },
+      hebelClick() {
+        if (this.rotateHebel == 0) {
+          this.rotateHebel = 70;
+          this.globalGameState.$state.hebelStatus = !this.globalGameState.$state.hebelStatus;
+        } else {
+          this.rotateHebel = 0;
+          this.globalGameState.$state.hebelStatus = !this.globalGameState.$state.hebelStatus;
+        }
+      },
+      hebelHandler() {
+        if (this.globalGameState.$state.hebelStatus) {
+          this.routeKeller();
+        } else {
+          this.globalGameState.$state.kitchenState = 5;
+        }
+      }
     },
     data() {
       return {
         code: [null, null, null, null],
         keypadValues: [7,8,9,4,5,6,1,2,3,11,0,12],
 				pattern: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
-				patternMatcher: false
+				patternMatcher: false,
+        rotateHebel: 70,
       }
     }
   }
   </script>
   
   <style scoped>
+  .hebel {
+    position: absolute;
+    top: 483px;
+    left: 785px;
+    width: 75px;
+    cursor: pointer;
+  }
   .overlay {
     left: 400px;
     width: 600px;
