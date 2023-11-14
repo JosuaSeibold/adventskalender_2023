@@ -115,6 +115,7 @@
       },
       hebelHandler() {
         if (this.globalGameState.$state.hebelStatus) {
+          this.globalGameState.$state.unlocked = true;
           this.routeKeller();
         } else {
           this.globalGameState.$state.kitchenState = 5;

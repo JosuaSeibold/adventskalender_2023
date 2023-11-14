@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import { useGlobalGameStateStore } from '@/store/globalGameState';
 import Start from '../components/start.vue';
 import Flur from '../components/flur.vue';
 import Wohnzimmer from '../components/wohnzimmer.vue';
@@ -43,5 +44,12 @@ const router = createRouter({
   history: createWebHashHistory(),
   routes
 })
+
+router.beforeEach((to) => {
+  const globalGameState = useGlobalGameStateStore();
+  if(to.name === "keller" && !globalGameState.$state.unlocked) {
+    return { name: "home"};
+  }
+});
 
 export default router
