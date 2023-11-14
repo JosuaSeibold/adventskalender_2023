@@ -93,8 +93,8 @@
     top: 0;
     left: 0;
     z-index: 150;
-    width: 100vw;
-    height: 100vh;
+    width: 1085px;
+    height: 1085px;
   }
   
   .overlay {
