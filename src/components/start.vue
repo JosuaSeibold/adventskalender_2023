@@ -1,7 +1,7 @@
 <template>
     <div class="centered-image">
       <img ondragstart="return false;" ondrop="return false;" class="fill" src="@/assets/eingang.png" alt="Image description">
-      <img class="key" src="@/assets/keyy.png" alt="key">
+      <img @touchstart="onTouch" class="key" src="@/assets/keyy.png" alt="key">
     </div>
     <div ref="dropZoneRef" class="drop"></div>
     <div class="blocker" v-if="step < 2"></div>
@@ -37,6 +37,9 @@
     methods: {
       letsGo() {
         this.step += 1;
+      },
+      onTouch() {
+        router.push('/flur');
       }
     },
     data() {
