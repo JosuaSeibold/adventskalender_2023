@@ -23,7 +23,7 @@
             <div @click="keyInput(key)" class="code-button">{{ key === 11 ? '&#10006;' : key === 12 ? '&#10004;' : key }}</div>
         </div>
       </div>
-      <button class="weiter" @click="incrementState">Weiter!</button>
+      <h4 v-if="keyMatcher">Da stimmt noch was nicht!</h4>
     </div>
 		<div class="overlay" v-if="this.globalGameState.$state.kitchenState == 3">
       <h1>Es gibt noch einen Code?</h1>
@@ -58,7 +58,7 @@
     },
     computed: {
       styleHebel() {
-        return 'transform: rotate(' + this.rotateHebel + 'deg);';
+        return 'transform: rotate(' + this.globalGameState.$state.rotateHebel + 'deg);';
       },
     },
     methods: {
@@ -79,6 +79,9 @@
         } else if (key == 12) {
             if (this.code[0] == 8 && this.code[1] == 5 && this.code[2] == 1 && this.code[3] == 4) {
                 this.incrementState();
+            } else {
+              this.keyMatcher = true;
+              this.code = [null, null, null, null];
             }
         } else {
             for (let i = 0; i < 4; i++) {
@@ -108,13 +111,7 @@
         router.push('/keller');
       },
       hebelClick() {
-        if (this.rotateHebel == 0) {
-          this.rotateHebel = 70;
-          this.globalGameState.$state.hebelStatus = !this.globalGameState.$state.hebelStatus;
-        } else {
-          this.rotateHebel = 0;
-          this.globalGameState.$state.hebelStatus = !this.globalGameState.$state.hebelStatus;
-        }
+        this.globalGameState.hebelClick();
       },
       hebelHandler() {
         if (this.globalGameState.$state.hebelStatus) {
@@ -130,7 +127,7 @@
         keypadValues: [7,8,9,4,5,6,1,2,3,11,0,12],
 				pattern: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false],
 				patternMatcher: false,
-        rotateHebel: 70,
+        keyMatcher: false
       }
     }
   }

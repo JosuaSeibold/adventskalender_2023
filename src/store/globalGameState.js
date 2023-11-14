@@ -10,6 +10,7 @@ export const useGlobalGameStateStore = defineStore('globalGameState', {
         rotationSocke5: 20,
         flurState: 0,
         kitchenState: 0,
+        rotateHebel: 70,
         hebelStatus: false
     }),
     getters: {
@@ -44,6 +45,14 @@ export const useGlobalGameStateStore = defineStore('globalGameState', {
         },
         incrementKitchenState() {
             this.kitchenState += 1;
+        },
+        hebelClick() {
+            if (this.rotateHebel == 70) {
+                this.rotateHebel = 0;
+            } else {
+                this.rotateHebel = 70;
+            }
+            this.hebelStatus = !this.hebelStatus;
         }
     }
 })
