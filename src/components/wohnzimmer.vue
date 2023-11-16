@@ -2,16 +2,15 @@
     <div class="centered-image">
       <img ondragstart="return false;" ondrop="return false;" class="fill" src="@/assets/wohnzimmer.png" alt="Image description">
     </div>
-    <img :style="styleSocke1" @click="this.globalGameState.rotateSocke('socke1')" class="socke1 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke1.png" alt="Image description">
-    <img :style="styleSocke2" @click="this.globalGameState.rotateSocke('socke2')" class="socke2 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke2.png" alt="Image description">
-    <img :style="styleSocke3" @click="this.globalGameState.rotateSocke('socke3')" class="socke3 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke3.png" alt="Image description">
-    <img :style="styleSocke4" @click="this.globalGameState.rotateSocke('socke4')" class="socke4 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke4.png" alt="Image description">
-    <img :style="styleSocke5" @click="this.globalGameState.rotateSocke('socke5')" class="socke5 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke5.png" alt="Image description">
+    <img :style="styleSocke1" @click="rotateSocke('socke1')" class="socke1 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke1.png" alt="Image description">
+    <img :style="styleSocke2" @click="rotateSocke('socke2')" class="socke2 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke2.png" alt="Image description">
+    <img :style="styleSocke3" @click="rotateSocke('socke3')" class="socke3 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke3.png" alt="Image description">
+    <img :style="styleSocke4" @click="rotateSocke('socke4')" class="socke4 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke4.png" alt="Image description">
+    <img :style="styleSocke5" @click="rotateSocke('socke5')" class="socke5 socke" ondragstart="return false;" ondrop="return false;" src="@/assets/socke5.png" alt="Image description">
     <div class="clickzone zurueck" @click="inFlur"><h2>Zurück in Flur</h2></div>
-    <div class="blocker" v-if="step < 1"></div>
-    <div class="overlay" v-if="step==0">
-      <h1>Sehr gut!</h1>
-      <h3>Wo möchtest du als nächstes hin?</h3>
+    <div class="overlay" v-if="step==1">
+      <h1>Unlocked</h1>
+      <h3>Du hast den Geheimgang freigeschaltet!</h3>
       <button class="weiter" @click="letsGo">Weiter</button>
     </div>
   </template>
@@ -46,15 +45,23 @@
     },
     methods: {
       letsGo() {
-        this.step += 1;
+        this.step = 0;
       },
       inFlur() {
         router.push('/flur');
+      },
+      rotateSocke(socke) {
+        this.globalGameState.rotateSocke(socke)
+        if (this.globalGameState.$state.geheimgangFreigeschaltet) {
+          this.step++;
+        } else {
+          this.step = 0;
+        }
       }
     },
     data() {
       return {
-        step: 2,
+        step: 0,
       }
     }
   }
