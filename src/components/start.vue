@@ -8,6 +8,7 @@
     <div class="overlay" v-if="step==0">
       <h1>Hilfe!</h1>
       <h3>Der Weihnachtsmann hat sich in seinem eigenen Haus verlaufen! Kannst du ihn Retten?</h3>
+      <h4>Empfohlen wird, das Rätsel an einem Computer zu lösen.</h4>
       <button class="weiter" @click="letsGo">Los!</button>
     </div>
     <div class="overlay" v-if="step==1">
@@ -104,7 +105,6 @@
     border-radius: 30px;
     padding: 30px;
     width: 300px;
-    height: 300px;
     position: absolute;
     left: 539px;
     top: 30%;

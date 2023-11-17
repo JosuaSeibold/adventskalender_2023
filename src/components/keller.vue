@@ -5,6 +5,7 @@
     <div class="overlay">
       <h1>Herzlichen Glückwunsch!</h1>
       <h3>Du hast den Weihnachtsmann gefunden.<br><br>Weihnachten ist gerettet!</h3>
+      <h4>Credits: Idee und Entwicklung: Josua Seibold, Bilder: Bing Chat - Image Generator</h4>
     </div>
   </template>
   
