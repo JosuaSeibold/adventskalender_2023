@@ -52,7 +52,7 @@
       },
       rotateSocke(socke) {
         this.globalGameState.rotateSocke(socke)
-        if (this.globalGameState.$state.geheimgangFreigeschaltet) {
+        if (this.globalGameState.isRaetselSolved) {
           this.step++;
         } else {
           this.step = 0;
